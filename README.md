@@ -3,6 +3,13 @@ Kirby Footnotes v0.1
 
 This plugin extends [Kirby 2 CMS](http://getkirby.com) with some basic footnote functionalities.  
 
+In-text reference:  
+![In-text reference](https://cloud.githubusercontent.com/assets/3788865/5635753/670ccacc-95ec-11e4-81b8-7cdc20b077b2.png)
+
+Footnotes list at the end of the text:  
+![Footnotes list](https://cloud.githubusercontent.com/assets/3788865/5635754/67339fe4-95ec-11e4-981a-ef3f47075935.png)
+
+
 # Installation
 1. Download [Kirby Footnotes](https://github.com/distantnative/kirby-footnotes/zipball/master/)
 2. Copy the `site/plugins/footnotes` directory to `site/plugins/`
