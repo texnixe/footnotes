@@ -6,27 +6,10 @@ This plugin extends [Kirby 2 CMS](http://getkirby.com) with some basic footnote 
 # Installation
 1. Download [Kirby Footnotes](https://github.com/distantnative/kirby-footnotes/zipball/master/)
 2. Copy the `site/plugins/footnotes` directory to `site/plugins/`
-3. Add CSS for the footnotes (optional:
-```css
-.footnote {
-  font-size: .85em;
-}
-
-.footnotedivider {
-  width: 85px;
-  margin-top: 20px;
-  border-bottom: 1px solid #777;
-}
-
-.footnotes {
-  font-size: .8em;
-}
-
-.footnotes ol li {
-  margin: 4px 0;
-}
-
-```
+3. Add CSS for the footnotes (optional)  
+`.footnote`: in-text reference number, `sup` tag  
+`.footnotes`: `div` wrapper for list of footnotes, `ol` list inside    
+`.footnotedivider`: `div` element before the `ol` list  
 
 # Update
 1. Replace the `site/plugins/footnotes` directory with recent version
