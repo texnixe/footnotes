@@ -15,7 +15,7 @@ Footnotes list at the end of the text:
 2. Copy the `site/plugins/footnotes` directory to `site/plugins/`
 3. Add CSS for the footnotes (optional)  
 `.footnote`: in-text reference number, `sup` tag  
-`.footnotes`: `div` wrapper for list of footnotes, `ol` list inside    
+`.footnotes`: `div` wrapper for list of footnotes, `ol` list inside  
 `.footnotedivider`: `div` element before the `ol` list  
 
 # Update
