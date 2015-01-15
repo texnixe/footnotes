@@ -1,4 +1,4 @@
-Kirby Footnotes v0.1
+Kirby Footnotes v0.2
 ============
 
 This plugin extends [Kirby 2 CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense.
@@ -25,6 +25,14 @@ Footnotes can be used either as method on a text field, e.g. `$page->text()->foo
 ```php
 c::set('footnotes.global', true);
 ```
+
+There are also options to enable a smooth scrolling effect to the footnotes list and to define a certain offset to the end scrolling position (e.g. if a fixed header menu is used):
+
+```php
+c::set('footnotes.smoothscroll', true);
+c::set('footnotes.offset', 0);
+```
+
 
 # Usage
 Adding footnotes to your Kirbytext field is simple. Just type them inline in your post in square brackets like this:
