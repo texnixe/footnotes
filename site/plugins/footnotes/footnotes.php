@@ -28,10 +28,16 @@ function convert_footnotes($text) {
         }
         $text .= "</ol>";
         $text .= "</div>";
+
+        if (c::get('footnotes.smoothscroll', false)) :
+          $text .= "<script>$(function() { $('a[href*=#]:not([href=#])').click(function() { if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) { var t = $(this.hash); t = t.length ? t : $('[name=' + this.hash.slice(1) +']'); if (t.length) { $('html,body').animate({ scrollTop: t.offset().top - ".c::get('footnotes.offset', 0)." }, 1000); return false; } } }); });</script>";
+        endif;
     }
 
     return $text;
   }
+
+  $value = $text;
 
   return $value;
 }
@@ -49,7 +55,7 @@ field::$methods['footnotes'] = function($field) {
  *  Pre-filtering Kirbytext if option "footnotes.global" is set true
  */
 if(c::get('footnotes.global', false)) {
-  kirbytext::$pre[] = function($kirbytext, $value) {
+  kirbytext::$post[] = function($kirbytext, $value) {
     return convert_footnotes($value);
   };
 }
