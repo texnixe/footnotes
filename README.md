@@ -1,4 +1,4 @@
-Kirby Footnotes v0.2
+Kirby Footnotes v0.3
 ============
 
 This plugin extends [Kirby 2 CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense.
@@ -33,6 +33,10 @@ c::set('footnotes.smoothscroll', true);
 c::set('footnotes.offset', 0);
 ```
 
+If you wanna show the footnotes on certain pages (e.g. single article) but not on others (e.g. on the blog overview), you can add a parameter to the footnotes field method and it will remove all footnotes (the in-text references and the list):
+```php
+echo $post->text()->footnotes(false)->kirbytext();
+```
 
 # Usage
 Adding footnotes to your Kirbytext field is simple. Just type them inline in your post in square brackets like this:

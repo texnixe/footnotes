@@ -18,7 +18,7 @@ function convert_footnotes($text) {
     }
 
 
-    if (true) { // TODO: if is single article
+    if (true) { // TODO: maybe add filter for specific templates
         $text .= "<div class='footnotes' id='footnotes'>";
         $text .= "<div class='footnotedivider'></div>";
 
@@ -37,17 +37,29 @@ function convert_footnotes($text) {
     return $text;
   }
 
-  $value = $text;
+  return $text;
+}
 
-  return $value;
+function remove_footnotes($text) {
+  if (preg_match_all('/\[(\d+\. .*?)\]/s', $text, $matches)) {
+    foreach ($matches[0] as $fn) {
+        $note = preg_replace('/\[\d+\. (.*?)\]/s', '\1', $fn);
+        $text = str_replace($fn, "", $text);
+    }
+  }
+  return $text;
 }
 
 
 /**
  * Adding an footnotes field method: e.g. $page->text()->footnotes()->kirbytext()
  */
-field::$methods['footnotes'] = function($field) {
-  $field->value = convert_footnotes($field->value);
+field::$methods['footnotes'] = function($field, $nodisplay=false) {
+  if ($nodisplay) {
+    $field->value = remove_footnotes($field->value);
+  } else {
+    $field->value = convert_footnotes($field->value);
+  }
   return $field;
 };
 
