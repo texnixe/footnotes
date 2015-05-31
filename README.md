@@ -11,16 +11,13 @@ In-text reference:
 Footnotes list at the end of the text:  
 ![Footnotes list](https://cloud.githubusercontent.com/assets/3788865/5635754/67339fe4-95ec-11e4-981a-ef3f47075935.png)
 
-# Installation
+# Installation & Update
 1. Download [Kirby Footnotes](https://github.com/distantnative/kirby-footnotes/zipball/master/)
 2. Copy the `site/plugins/footnotes` directory to `site/plugins/`
 3. Add CSS for the footnotes (optional)  
 `.footnote`: in-text reference number, `sup` tag  
 `.footnotes`: `div` wrapper for list of footnotes, `ol` list inside  
 `.footnotedivider`: `div` element before the `ol` list  
-
-# Update
-1. Replace the `site/plugins/footnotes` directory with recent version
 
 # Options
 Footnotes can be used either as method on a text field, e.g. `$page->text()->footnotes()->kirbytext()`, when creating templates - or globally set for all Kirbytext outputs. To do the latter add the following to your `site/config/config.php`:
@@ -71,3 +68,5 @@ To have a footnote / an information included in the footnotes list at the end of
 
 **0.4**
 - Renamed repository to `footnotes` & restructured files
+- Moved functionalities to KirbyFootnotes class
+- Fixed bug with not replacing order number correctly
