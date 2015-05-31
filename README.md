@@ -1,5 +1,7 @@
-Kirby Footnotes v0.3
+Footnotes for Kirby 2 CMS
 ============
+
+![Release](https://img.shields.io/github/release/distantnative/footnotes.svg)  [![Issues](https://img.shields.io/github/issues/distantnative/footnotes.svg)](https://github.com/distantnative/kirby-relativedate/issues)
 
 This plugin extends [Kirby 2 CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense.
 
@@ -64,3 +66,8 @@ To have a footnote / an information included in the footnotes list at the end of
 ```
 [1. <no>**Photo credits:** (link:http://www.flickr.com/photos/cubagallery/ text:Cuba Gallery)]
 ```
+
+# Version history
+
+**0.4**
+- Renamed repository to `footnotes` & restructured files
