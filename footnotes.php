@@ -36,15 +36,17 @@ class KirbyFootnotes {
       foreach ($matches[0] as $fn) {
         $notes[$n] = preg_replace(self::$patternContent, '\1', $fn);
 
-        if (substr($notes[$n], 0, 4) == '<no>') {
-          $notes[$n]  = str_replace('<no>', '', $notes[$n]);
+        if (substr($notes[$n], 1, 4) == '<no>') {
           $substitute = '';
         } else {
           $substitute  = '<sup class="footnote">';
           $substitute .= '<a href="#fn-'.$n.'" id="fnref-'.$n.'">'.$n.'</a>';
           $substitute .= '</sup>';
         }
-        $text = str_replace($fn, $substitute, $text);
+        $text      = str_replace($fn, $substitute, $text);
+        $notes[$n] = kirbytext($notes[$n]);
+        $notes[$n] = str_replace('<p>', '', $notes[$n]);
+        $notes[$n] = str_replace('</p>', '', $notes[$n]);
         $n++;
       }
 
@@ -53,7 +55,13 @@ class KirbyFootnotes {
       $text .= "<div class='footnotedivider'></div>";
       $text .= "<ol>";
       for ($i = 1; $i < $n; $i++) {
-        $text .= "<li id='fn-".$i."'>".$notes[$i]." <span class='footnotereverse'><a href='#fnref-".$i."'>&#8617;</a></span></li>";
+        $text .= "<li id='fn-".$i."'>";
+        if (substr($notes[$i], 0, 4) == '<no>') {
+          $notes[$i] = str_replace('<no>', "", $notes[$i]);
+          $text     .= $notes[$i]."</li>";
+        } else {
+          $text     .= $notes[$i]." <span class='footnotereverse'><a href='#fnref-".$i."'>&#8617;</a></span></li>";
+        }
       }
       $text .= "</ol>";
       $text .= "</div>";
