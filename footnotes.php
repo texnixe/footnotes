@@ -45,6 +45,10 @@ class KirbyFootnotes {
           $substitute .= '</sup>';
         }
         $text = str_replace($fn, $substitute, $text);
+        $text      = str_replace($fn, $substitute, $text);
+        $notes[$n] = kirbytext($notes[$n]);
+        $notes[$n] = str_replace('<p>', '', $notes[$n]);
+        $notes[$n] = str_replace('</p>', '', $notes[$n]);
         $n++;
       }
 
