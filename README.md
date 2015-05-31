@@ -1,7 +1,7 @@
 Footnotes for Kirby 2 CMS
 ============
 
-![Release](https://img.shields.io/github/release/distantnative/footnotes.svg)  [![Issues](https://img.shields.io/github/issues/distantnative/footnotes.svg)](https://github.com/distantnative/kirby-relativedate/issues)
+![Release](https://img.shields.io/github/release/distantnative/footnotes.svg)  [![Issues](https://img.shields.io/github/issues/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/issues)
 
 This plugin extends [Kirby 2 CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense.
 
