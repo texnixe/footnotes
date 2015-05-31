@@ -66,6 +66,11 @@ To have a footnote / an information included in the footnotes list at the end of
 
 # Version history
 
+**0.5**
+- Enabled Kirbytext inside footnotes
+- Fixed footnotes without in-text footnote (`no`)
+- No backlink on `<no>` footnotes
+
 **0.4**
 - Renamed repository to `footnotes` & restructured files
 - Moved functionalities to KirbyFootnotes class
