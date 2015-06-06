@@ -4,8 +4,8 @@
  * Adding an footnotes field method: e.g. $page->text()->footnotes()->kt()
  */
 field::$methods['footnotes'] = function($field, $convert=true) {
-  if ($convert)
-    $field->value = KirbyFootnotes::convert($field->value);
+  if($convert)
+    $field->value = KirbyFootnotes::process($field->value, $this->page);
   else
     $field->value = KirbyFootnotes::remove($field->value);
   return $field;
@@ -16,7 +16,8 @@ field::$methods['footnotes'] = function($field, $convert=true) {
  */
 if(c::get('footnotes.global', false)) {
   kirbytext::$post[] = function($kirbytext, $value) {
-    return KirbyFootnotes::convert($value);
+    $page = kirby()->site()->activePage();
+    return KirbyFootnotes::process($value, $page);
   };
 }
 
@@ -28,6 +29,18 @@ class KirbyFootnotes {
 
   private static $patternFootnote = '/\[(\d+\..*?)\]/s';
   private static $patternContent  = '/\[\d+\.(.*?)\]/s';
+
+  public static function process($text, $page) {
+    $templates = array_map(function($t) use ($page) {
+      return preg_match('/^'.$t.'$/', $page->template()) == 1 ? true : false;
+    }, c::get('footnotes.templates', array()));
+
+    if(!in_array(true, $templates)) {
+      return KirbyFootnotes::convert($text);
+    } else {
+      return KirbyFootnotes::remove($text);
+    }
+  }
 
   public static function convert($text) {
     $n = 1;
