@@ -4,10 +4,11 @@
  * Adding an footnotes field method: e.g. $page->text()->footnotes()->kt()
  */
 field::$methods['footnotes'] = function($field, $convert=true) {
-  if($convert)
+  if($convert) {
     $field->value = KirbyFootnotes::process($field->value, $this->page);
-  else
+  } else {
     $field->value = KirbyFootnotes::remove($field->value);
+  }
   return $field;
 };
 
@@ -31,26 +32,28 @@ class KirbyFootnotes {
   private static $patternContent  = '/\[\d+\.(.*?)\]/s';
 
   public static function process($text, $page) {
-    $templates = array_map(function($t) use ($page) {
+    $restricted = c::get('footnotes.templates', array());
+    $templates  = array_map(function($t) use ($page) {
       return preg_match('/^'.$t.'$/', $page->template()) == 1 ? true : false;
-    }, c::get('footnotes.templates', array()));
+    }, $restricted);
 
     if(!in_array(true, $templates)) {
-      return KirbyFootnotes::convert($text);
+      return self::convert($text);
     } else {
-      return KirbyFootnotes::remove($text);
+      return self::remove($text);
     }
   }
 
   public static function convert($text) {
-    $n = 1;
+    $n     = 1;
     $notes = array();
-    if (preg_match_all(self::$patternFootnote, $text, $matches)) {
+
+    if(preg_match_all(self::$patternFootnote, $text, $matches)) {
       foreach ($matches[0] as $fn) {
         $notes[$n] = preg_replace(self::$patternContent, '\1', $fn);
 
-        if (substr($notes[$n], 1, 4) == '<no>') {
-          $substitute = '';
+        if(substr($notes[$n], 1, 4) == '<no>') {
+          $substitute  = '';
         } else {
           $substitute  = '<sup class="footnote">';
           $substitute .= '<a href="#fn-'.$n.'" id="fnref-'.$n.'">'.$n.'</a>';
@@ -64,22 +67,29 @@ class KirbyFootnotes {
       }
 
       // build footnotes references
-      $text .= "<div class='footnotes' id='footnotes'>";
-      $text .= "<div class='footnotedivider'></div>";
-      $text .= "<ol>";
-      for ($i = 1; $i < $n; $i++) {
-        $text .= "<li id='fn-".$i."'>";
-        if (substr($notes[$i], 0, 4) == '<no>') {
+      $text .= '<div class="footnotes" id="footnotes">';
+      $text .= '<div class="footnotedivider"></div>';
+      $text .= '<ol>';
+
+      $order = 1;
+      for($i = 1; $i < $n; $i++) {
+        if(substr($notes[$i], 0, 4) == '<no>') {
+          $text .= '<li id="fn-' . $i . '" style="list-style-type:none">';
+          $text .= $notes[$i];
+          $text .= '</li>';
           $notes[$i] = str_replace('<no>', "", $notes[$i]);
-          $text     .= $notes[$i]."</li>";
         } else {
-          $text     .= $notes[$i]." <span class='footnotereverse'><a href='#fnref-".$i."'>&#8617;</a></span></li>";
+          $text .= '<li id="fn-' . $i . '" value="' . $order . '">';
+          $text .= $notes[$i];
+          $text .= ' <span class="footnotereverse"><a href="#fnref-' . $i . '">&#8617;</a></span>';
+          $text .= '</li>';
+          $order++;
         }
       }
-      $text .= "</ol>";
-      $text .= "</div>";
+      $text .= '</ol>';
+      $text .= '</div>';
 
-      if (c::get('footnotes.smoothscroll', false)) $text .= self::script();
+      if(c::get('footnotes.smoothscroll', false)) $text .= self::script();
 
       return $text;
     }
