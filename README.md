@@ -37,6 +37,16 @@ If you wanna show the footnotes on certain pages (e.g. single article) but not o
 echo $post->text()->footnotes(false)->kirbytext();
 ```
 
+Moreover, you can restrict footnotes to certain templates by adding the following to your `site/config/config.php` (regular expressions possible for template names):
+
+```php
+c::set('footnotes.templates', array(
+  'about',
+  'blog',
+  'project-.*'
+));
+```
+
 # Usage
 Adding footnotes to your Kirbytext field is simple. Just type them inline in your post in square brackets like this:
 
@@ -66,9 +76,13 @@ To have a footnote / an information included in the footnotes list at the end of
 
 # Version history
 
+**0.6**
+- Added option to restrict footnotes to certain templates
+- Fixed numbering of footnotes without in-text footnote (`<no>`)
+
 **0.5**
 - Enabled Kirbytext inside footnotes
-- Fixed footnotes without in-text footnote (`no`)
+- Fixed footnotes without in-text footnote (`<no>`)
 - No backlink on `<no>` footnotes
 
 **0.4**
