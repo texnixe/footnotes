@@ -5,7 +5,7 @@
  */
 field::$methods['footnotes'] = function($field, $convert=true) {
   if($convert) {
-    $field->value = KirbyFootnotes::process($field->value, $this->page);
+    $field->value = KirbyFootnotes::process($field->value, $field->page);
   } else {
     $field->value = KirbyFootnotes::remove($field->value);
   }
