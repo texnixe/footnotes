@@ -15,7 +15,7 @@ This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extreme
 
 
 # Installation & Update <a id="Installation"></a>
-1. Download [Kirby Footnotes](https://github.com/distantnative/kirby-footnotes/zipball/master/)
+1. Download [Footnotes](https://github.com/distantnative/footnotes/zipball/master/)
 2. Copy the `site/plugins/footnotes` directory to `site/plugins/`
 3. Add CSS for the footnotes (optional)  
 `.footnote`: in-text reference number, `sup` tag  
@@ -90,7 +90,7 @@ c::set('footnotes.templates', array(
 
 
 # Help & Improve <a id="Help"></a>
-*If you have any suggestions for further configuration options, [please let me know](https://github.com/distantnative/oembed/issues/new).*
+*If you have any suggestions for further configuration options, [please let me know](https://github.com/distantnative/footnotes/issues/new).*
 
 
 # Version history <a id="VersionHistory"></a>
