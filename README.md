@@ -73,8 +73,8 @@ c::set('footnotes.smoothscroll', true);
 c::set('footnotes.offset', 0);
 ```
 
-**Merge duplicate footnotes**  
-Sometimes it might be handy to not repeate exact duplicate footnotes, but rather to reference only one unified footnotes list entry. To do so add the following option to your `site/config/config.php`:
+**Merge identical footnotes**  
+Sometimes it might be handy to not repeat identical footnotes, but rather to reference only one single footnotes list entry. To do so add the following option to your `site/config/config.php`:
 
 ```php
 c::set('footnotes.merge', true);
@@ -112,6 +112,10 @@ c::set('footnotes.templates.ignore', array(
 
 
 # Version history <a id="VersionHistory"></a>
+**0.7**  
+- Added options to limit footnotes to specific templates (whitelist & blacklist)
+- Added option to merge identical footnotes
+
 **0.6**
 - Added option to restrict footnotes to certain templates
 - Fixed numbering of footnotes without in-text footnote (`<no>`)
