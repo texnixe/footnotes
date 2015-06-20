@@ -79,7 +79,8 @@ class KirbyFootnotes {
         $count++;
 
         if(c::get('footnotes.merge', false)) {
-          $regex = preg_replace('/\[[0-9]*\..(.*)\]/', '/\[([0-9]*)\..$1\]/', $matches[0][$key]);
+          $regex = preg_quote($matches[0][$key]);
+          $regex = '#'.preg_replace('/(\\\[[0-9]*\\\. )/', '\[[0-9]*\. ', $regex).'#';
           $text  = preg_replace($regex, $replace, $text);
         } else {
           $text = str_replace($matches[0][$key], $replace, $text);
