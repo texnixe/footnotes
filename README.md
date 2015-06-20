@@ -73,20 +73,36 @@ c::set('footnotes.smoothscroll', true);
 c::set('footnotes.offset', 0);
 ```
 
+**Merge identical footnotes**  
+Sometimes it might be handy to not repeat identical footnotes, but rather to reference only one single footnotes list entry. To do so add the following option to your `site/config/config.php`:
+
+```php
+c::set('footnotes.merge', true);
+```
+
 **Remove footnotes**  
 If you wanna show the footnotes on certain pages (e.g. single article) but not on others (e.g. on the blog overview), you can add a parameter to the footnotes field method and it will remove all footnotes (the in-text references and the list):
 ```php
 echo $post->text()->footnotes(false)->kirbytext();
 ```
 
-**Limit templates**  
-Moreover, you can restrict footnotes to certain templates by adding the following to your `site/config/config.php` (regular expressions possible for template names):
-
+**Template whitelist**  
+You can allow footnotes only on specific templates by adding the following to your `site/config/config.php`:
 ```php
-c::set('footnotes.templates', array(
+c::set('footnotes.templates.allow', array(
   'about',
   'blog',
-  'project-.*'
+  'project'
+));
+```
+
+**Template blacklist**
+You can restrict footnotes from specific templates by adding the following to your `site/config/config.php`:
+```php
+c::set('footnotes.templates.ignore', array(
+  'about',
+  'blog',
+  'project'
 ));
 ```
 
@@ -96,6 +112,10 @@ c::set('footnotes.templates', array(
 
 
 # Version history <a id="VersionHistory"></a>
+**0.7**  
+- Added options to limit footnotes to specific templates (whitelist & blacklist)
+- Added option to merge identical footnotes
+
 **0.6**
 - Added option to restrict footnotes to certain templates
 - Fixed numbering of footnotes without in-text footnote (`<no>`)
