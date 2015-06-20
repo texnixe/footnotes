@@ -32,12 +32,11 @@ class KirbyFootnotes {
   private static $patternContent  = '/\[\d+\.(.*?)\]/s';
 
   public static function process($text, $page) {
-    $restricted = c::get('footnotes.templates', array());
-    $templates  = array_map(function($t) use ($page) {
-      return preg_match('/^'.$t.'$/', $page->template()) == 1 ? true : false;
-    }, $restricted);
+    $allowed = c::get('footnotes.templates.allow', true);
+    $ignored = c::get('footnotes.templates.ignore', array());
 
-    if(!in_array(true, $templates)) {
+
+    if(($allowed === true or in_array($page->template(), $allowed)) and !in_array($page->template(), $ignored)) {
       return self::convert($text);
     } else {
       return self::remove($text);

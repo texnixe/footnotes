@@ -79,14 +79,23 @@ If you wanna show the footnotes on certain pages (e.g. single article) but not o
 echo $post->text()->footnotes(false)->kirbytext();
 ```
 
-**Limit templates**  
-Moreover, you can restrict footnotes to certain templates by adding the following to your `site/config/config.php` (regular expressions possible for template names):
-
+**Template whitelist**  
+You can allow footnotes only on specific templates by adding the following to your `site/config/config.php`:
 ```php
-c::set('footnotes.templates', array(
+c::set('footnotes.templates.allow', array(
   'about',
   'blog',
-  'project-.*'
+  'project'
+));
+```
+
+**Template blacklist**
+You can restrict footnotes from specific templates by adding the following to your `site/config/config.php`:
+```php
+c::set('footnotes.templates.ignore', array(
+  'about',
+  'blog',
+  'project'
 ));
 ```
 
