@@ -73,6 +73,13 @@ c::set('footnotes.smoothscroll', true);
 c::set('footnotes.offset', 0);
 ```
 
+**Merge duplicate footnotes**  
+Sometimes it might be handy to not repeate exact duplicate footnotes, but rather to reference only one unified footnotes list entry. To do so add the following option to your `site/config/config.php`:
+
+```php
+c::set('footnotes.merge', true);
+```
+
 **Remove footnotes**  
 If you wanna show the footnotes on certain pages (e.g. single article) but not on others (e.g. on the blog overview), you can add a parameter to the footnotes field method and it will remove all footnotes (the in-text references and the list):
 ```php

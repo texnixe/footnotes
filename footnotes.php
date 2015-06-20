@@ -44,56 +44,66 @@ class KirbyFootnotes {
   }
 
   public static function convert($text) {
-    $n     = 1;
-    $notes = array();
 
     if(preg_match_all(self::$patternFootnote, $text, $matches)) {
-      foreach ($matches[0] as $fn) {
-        $notes[$n] = preg_replace(self::$patternContent, '\1', $fn);
 
-        if(substr($notes[$n], 1, 4) == '<no>') {
-          $substitute  = '';
-        } else {
-          $substitute  = '<sup class="footnote">';
-          $substitute .= '<a href="#fn-'.$n.'" id="fnref-'.$n.'">'.$n.'</a>';
-          $substitute .= '</sup>';
-        }
-        $text      = str_replace($fn, $substitute, $text);
-        $notes[$n] = kirbytext($notes[$n]);
-        $notes[$n] = str_replace('<p>', '', $notes[$n]);
-        $notes[$n] = str_replace('</p>', '', $notes[$n]);
-        $n++;
-      }
+      // start footnotes list
+      $list  = '<div class="footnotes" id="footnotes">';
+      $list .= '<div class="footnotedivider"></div>';
+      $list .= '<ol>';
 
-      // build footnotes references
-      $text .= '<div class="footnotes" id="footnotes">';
-      $text .= '<div class="footnotedivider"></div>';
-      $text .= '<ol>';
 
+      $footnotes = array_map(function($fn) {
+        // separate footnotes from leading number
+        $fn = preg_replace(self::$patternContent, '\1', $fn);
+
+        // enable Kirbytext in footnotes
+        $fn = kirbytext($fn);
+        $fn = str_replace(array('<p>','</p>'), '', $fn);
+        return $fn;
+      }, $matches[0]);
+
+      // merge duplicates
+      if(c::get('footnotes.merge', false)) $footnotes = array_unique($footnotes);
+
+
+      $count = 1;
       $order = 1;
-      for($i = 1; $i < $n; $i++) {
-        if(substr($notes[$i], 0, 4) == '<no>') {
-          $text .= '<li id="fn-' . $i . '" style="list-style-type:none">';
-          $text .= $notes[$i];
-          $text .= '</li>';
-          $notes[$i] = str_replace('<no>', "", $notes[$i]);
+
+      foreach($footnotes as $key => $fn) {
+        $hidden  = substr($fn, 0, 4) == '<no>';
+        $replace = self::reference($fn, $count, $order, $hidden);
+        $list   .= self::entry($fn, $count, $order, $hidden);
+
+        if(!$hidden) $order++;
+        $count++;
+
+        if(c::get('footnotes.merge', false)) {
+          $regex = preg_replace('/\[[0-9]*\..(.*)\]/', '/\[([0-9]*)\..$1\]/', $matches[0][$key]);
+          $text  = preg_replace($regex, $replace, $text);
         } else {
-          $text .= '<li id="fn-' . $i . '" value="' . $order . '">';
-          $text .= $notes[$i];
-          $text .= ' <span class="footnotereverse"><a href="#fnref-' . $i . '">&#8617;</a></span>';
-          $text .= '</li>';
-          $order++;
+          $text = str_replace($matches[0][$key], $replace, $text);
         }
       }
-      $text .= '</ol>';
-      $text .= '</div>';
 
+
+      // close footnotes list and append to text
+      $list .= '</ol></div>';
+      $text .= $list;
+
+      // append js to script of smooth scroll active
       if(c::get('footnotes.smoothscroll', false)) $text .= self::script();
-
-      return $text;
     }
 
     return $text;
+  }
+
+  public static function reference($fn, $count, $order, $hidden) {
+    return $hidden ? '' : '<sup class="footnote"><a href="#fn-'.$count.'" id="fnref-'.$count.'">'.$order.'</a></sup>';
+  }
+
+  public static function entry($fn, $count, $order, $hidden) {
+    return $hidden ? '<li id="fn-'.$count.'" style="list-style-type:none">'.$fn.'</li>' : '<li id="fn-'.$count.'" value="'.$order.'">'.$fn.' <span class="footnotereverse"><a href="#fnref-'.$count.'">&#8617;</a></span></li>';
   }
 
   public static function remove($text) {
