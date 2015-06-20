@@ -1,10 +1,12 @@
 ![Footnotes for Kirby CMS](http://distantnative.com/remote/github/kirby-footnotes-github.png)  
 
-
 [![Release](https://img.shields.io/github/release/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/releases)  [![Issues](https://img.shields.io/github/issues/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/distantnative/footnotes/master/LICENSE)
 [![Moral License](https://img.shields.io/badge/buy-moral_license-8dae28.svg)](https://gumroad.com/l/kirby-footnotes)
 
 This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense. It has been inspired by [FD Footnotes for Wordpress](https://wordpress.org/plugins/fd-footnotes/).
+
+The plugin is free, but I'd appreciate if you'd support me with a [moral license](https://gumroad.com/l/kirby-footnotes)!
+
 
 # Table of Contents
 1. [Installation & Update](#Installation)
