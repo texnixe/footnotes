@@ -1,122 +1,149 @@
 <?php
 
-/**
- * Adding an footnotes field method: e.g. $page->text()->footnotes()->kt()
- */
-field::$methods['footnotes'] = function($field, $convert=true) {
-  if($convert) {
-    $field->value = KirbyFootnotes::process($field->value, $field->page);
-  } else {
-    $field->value = KirbyFootnotes::remove($field->value);
-  }
+// Footnotes field method: $page->text()->footnotes()->kt()
+field::$methods['footnotes'] = function($field, $convert = true) {
+  $footnotes    = new Footnotes($field->value, $field->page);
+  $field->value = $convert ? $footnotes->process() : $footnotes->remove();
   return $field;
 };
 
-/**
- *  Pre-filtering Kirbytext if global option "footnotes.global" is set true
- */
+// Kirbytext pre-filter (if option 'footnotes.global' is true)
 if(c::get('footnotes.global', false)) {
   kirbytext::$post[] = function($kirbytext, $value) {
-    $page = kirby()->site()->activePage();
-    return KirbyFootnotes::process($value, $page);
+    $footnotes = new Footnotes($value, kirby()->site()->activePage());
+    return $footnotes->process($page);
   };
 }
 
 
 /**
- * KirbyFootnotes class
+ *  Footnotes class
  */
-class KirbyFootnotes {
 
-  private static $patternFootnote = '/\[(\d+\..*?)\]/s';
-  private static $patternContent  = '/\[\d+\.(.*?)\]/s';
+class Footnotes {
 
-  public static function process($text, $page) {
-    $allowed = c::get('footnotes.templates.allow', true);
-    $ignored = c::get('footnotes.templates.ignore', array());
+  public $text = '';
+  public $page = null;
+
+  private $matches       = null;
+  private $entries       = '';
+  private $templates     = null;
+  private $regexFootnote = '/\[(\d+\..*?)\]/s';
+  private $regexContent  = '/\[\d+\.(.*?)\]/s';
 
 
-    if(($allowed === true or in_array($page->template(), $allowed)) and !in_array($page->template(), $ignored)) {
-      return self::convert($text);
-    } else {
-      return self::remove($text);
-    }
+  public function __construct($text, $page) {
+    $this->text      = $text;
+    $this->page      = $page;
+    $this->templates = array(
+      'allowed' => c::get('footnotes.templates.allow', true),
+      'ignore'  => c::get('footnotes.templates.ignore', array())
+    );
   }
 
-  public static function convert($text) {
 
-    if(preg_match_all(self::$patternFootnote, $text, $matches)) {
+  public function process() {
+    $check = ($this->templates['allowed'] === true or
+              in_array($this->page->template(), $this->templates['allowed'])) and
+             !in_array($this->page->template(), $this->templates['ignore']);
 
-      // start footnotes list
-      $list  = '<div class="footnotes" id="footnotes">';
-      $list .= '<div class="footnotedivider"></div>';
-      $list .= '<ol>';
+    return $check ? $this->convert() : $this->remove();
+  }
 
 
-      $footnotes = array_map(function($fn) {
-        // separate footnotes from leading number
-        $fn = preg_replace(self::$patternContent, '\1', $fn);
+  public function convert() {
+    if(preg_match_all($this->regexFootnote, $this->text, $this->matches)) {
 
-        // enable Kirbytext in footnotes
-        $fn = kirbytext($fn);
-        $fn = str_replace(array('<p>','</p>'), '', $fn);
-        return $fn;
-      }, $matches[0]);
+      $fns = array_map(array($this, 'clean'), $this->matches[0]);
 
       // merge duplicates
-      if(c::get('footnotes.merge', false)) $footnotes = array_unique($footnotes);
-
+      if(c::get('footnotes.merge', false)) $fns = array_unique($fns);
 
       $count = 1;
       $order = 1;
 
-      foreach($footnotes as $key => $fn) {
-        $hidden  = substr($fn, 0, 4) == '<no>';
-        $replace = self::reference($fn, $count, $order, $hidden);
-        $list   .= self::entry($fn, $count, $order, $hidden);
+      foreach($fns as $key => $fn) {
+        $args = array(
+          'fn'     => $fn,
+          '#'      => $count,
+          'no.'    => $order,
+          'hide'   => substr($fn, 0, 4) === '<no>'
+        );
 
-        if(!$hidden) $order++;
+        $replace = $this->reference($args);
+        $this->replace($key, $replace);
+
+        $entry = $this->entry($args);
+        $this->bibentry($entry);
+
         $count++;
-
-        if(c::get('footnotes.merge', false)) {
-          $regex = preg_quote($matches[0][$key]);
-          $regex = '#'.preg_replace('/(\\\[[0-9]*\\\. )/', '\[[0-9]*\. ', $regex).'#';
-          $text  = preg_replace($regex, $replace, $text);
-        } else {
-          $text = str_replace($matches[0][$key], $replace, $text);
-        }
+        if(!$args['hide']) $order++;
       }
 
-
-      // close footnotes list and append to text
-      $list .= '</ol></div>';
-      $text .= $list;
+      $this->text .= $this->bibliography();
 
       // append js to script of smooth scroll active
-      if(c::get('footnotes.smoothscroll', false)) $text .= self::script();
+      if(c::get('footnotes.smoothscroll', false)) $this->text .= $this->script();
     }
 
-    return $text;
+    return $this->text;
   }
 
-  public static function reference($fn, $count, $order, $hidden) {
-    return $hidden ? '' : '<sup class="footnote"><a href="#fn-'.$count.'" id="fnref-'.$count.'">'.$order.'</a></sup>';
-  }
 
-  public static function entry($fn, $count, $order, $hidden) {
-    return $hidden ? '<li id="fn-'.$count.'" style="list-style-type:none">'.$fn.'</li>' : '<li id="fn-'.$count.'" value="'.$order.'">'.$fn.' <span class="footnotereverse"><a href="#fnref-'.$count.'">&#8617;</a></span></li>';
-  }
-
-  public static function remove($text) {
-    if (preg_match_all(self::$patternFootnote, $text, $matches)) {
-      foreach ($matches[0] as $fn) {
-          $text = str_replace($fn, "", $text);
+  public function remove() {
+    if (preg_match_all($this->regexFootnote, $this->text, $this->matches)) {
+      foreach($this->matches[0] as $fn) {
+          $this->text = str_replace($fn, '', $this->text);
       }
     }
-    return $text;
+    return $this->text;
   }
 
-  private static function script() {
-    return "<script>$(function() { $('a[href*=#]:not([href=#])').click(function() { if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) { var t = $(this.hash); t = t.length ? t : $('[name=' + this.hash.slice(1) +']'); if (t.length) { $('html,body').animate({ scrollTop: t.offset().top - ".c::get('footnotes.offset', 0)." }, 1000); return false; } } }); });</script>";
+
+  private function replace($key, $replace) {
+    if(c::get('footnotes.merge', false)) {
+      $regex      =     preg_quote($this->matches[0][$key]);
+      $regex      = '#'.preg_replace('/(\\\[[0-9]*\\\. )/', '\[[0-9]*\. ', $regex).'#';
+      $this->text =     preg_replace($regex, $replace, $this->text);
+    } else {
+      $this->text = str_replace($this->matches[0][$key], $replace, $this->text);
+    }
+  }
+
+
+  private function clean($fn) {
+    $fn  = preg_replace($this->regexContent, '\1', $fn);
+    return str_replace(array('<p>','</p>'), '', kirbytext($fn));
+  }
+
+
+  private function bibentry($entry) {
+    $this->entries .= $entry;
+  }
+
+
+  private function bibliography() {
+    $list  = '<div class="footnotes" id="footnotes">';
+    $list .= '<div class="footnotedivider"></div>';
+    $list .= '<ol>';
+    $list .= $this->entries;
+    $list .= '</ol>';
+    $list .= '</div>';
+    return $list;
+  }
+
+
+  private function reference($p) {
+    return $p['hide'] ? '' : '<sup class="footnote"><a href="#fn-'.$p['#'].'" id="fnref-'.$p['#'].'">'.$p['no.'].'</a></sup>';
+  }
+
+
+  private function entry($p) {
+    return $p['hide'] ? '<li id="fn-'.$p['#'].'" style="list-style-type:none">'.$p['fn'].'</li>' : '<li id="fn-'.$p['#'].'" value="'.$p['no.'].'">'.$p['fn'].' <span class="footnotereverse"><a href="#fnref-'.$p['#'].'">&#8617;</a></span></li>';
+  }
+
+
+  private function script() {
+    return "<script>$(function() { $('.footnote a[href*=#]:not([href=#]), .footnotereverse a[href*=#]:not([href=#])').click(function() { if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) { var t = $(this.hash); t = t.length ? t : $('[name=' + this.hash.slice(1) +']'); if (t.length) { $('html,body').animate({ scrollTop: t.offset().top - ".c::get('footnotes.offset', 0)." }, 1000); return false; } } }); });</script>";
   }
 }
