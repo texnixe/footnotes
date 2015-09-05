@@ -10,6 +10,7 @@ field::$methods['footnotes'] = function($field, $convert = true) {
 // Kirbytext pre-filter (if option 'footnotes.global' is true)
 if(c::get('footnotes.global', false)) {
   kirbytext::$post[] = function($kirbytext, $value) {
+    global $page;
     $footnotes = new Footnotes($value, kirby()->site()->activePage());
     return $footnotes->process($page);
   };
