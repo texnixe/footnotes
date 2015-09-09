@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.9
+- Removed jQuery dependency for smooth scrolling footnotes links (thx to @servicethinker)
+- Fixed $page scope for global footnotes (by @servicethinker)
+
 ## Version 0.8
 - Fixed anchor click listener bug (by @servicethinker)
 

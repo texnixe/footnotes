@@ -10,6 +10,7 @@ field::$methods['footnotes'] = function($field, $convert = true) {
 // Kirbytext pre-filter (if option 'footnotes.global' is true)
 if(c::get('footnotes.global', false)) {
   kirbytext::$post[] = function($kirbytext, $value) {
+    global $page;
     $footnotes = new Footnotes($value, kirby()->site()->activePage());
     return $footnotes->process($page);
   };
@@ -83,7 +84,7 @@ class Footnotes {
       $this->text .= $this->bibliography();
 
       // append js to script of smooth scroll active
-      if(c::get('footnotes.smoothscroll', false)) $this->text .= $this->script();
+      if(c::get('footnotes.smoothscroll', true)) $this->text .= $this->script();
     }
 
     return $this->text;
@@ -144,6 +145,11 @@ class Footnotes {
 
 
   private function script() {
-    return "<script>$(function() { $('.footnote a[href*=#]:not([href=#]), .footnotereverse a[href*=#]:not([href=#])').click(function() { if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) { var t = $(this.hash); t = t.length ? t : $('[name=' + this.hash.slice(1) +']'); if (t.length) { $('html,body').animate({ scrollTop: t.offset().top - ".c::get('footnotes.offset', 0)." }, 1000); return false; } } }); });</script>";
+    $script = '
+      <script>
+      document.addEventListener("DOMContentLoaded",function(){"use strict";for(var e=document.querySelectorAll(\'.footnote > a[href*="#"]:not([href="#"]), .footnotereverse > a[href*="#"]:not([href="#"])\'),t=e.length,n=/firefox|trident/i.test(navigator.userAgent)?document.documentElement:document.body,o=function(e,t,n,o){return(e/=o/2)<1?n/2*e*e*e+t:n/2*((e-=2)*e*e+2)+t};t--;)e.item(t).addEventListener("click",function(e){var t,r=n.scrollTop,i=document.getElementById(/[^#]+$/.exec(this.href)[0]).getBoundingClientRect().top+'.c::get('footnotes.offset', 0).',c=n.scrollHeight-window.innerHeight,u=c>r+i?i:c-r,d='.c::get('footnotes.smoothscroll.speed', 500).',a=function(e){t=t||e;var i=e-t,c=o(i,r,u,d);return n.scrollTop=c,d>i&&requestAnimationFrame(a)};requestAnimationFrame(a),e.preventDefault()})});
+      </script>
+    ';
+    return $script;
   }
 }
