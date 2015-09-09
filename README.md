@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/release/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/releases)  [![Issues](https://img.shields.io/github/issues/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/distantnative/footnotes/master/LICENSE)
 [![Moral License](https://img.shields.io/badge/buy-moral_license-8dae28.svg)](https://gumroad.com/l/kirby-footnotes)
 
-This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense. It has been inspired by [FD Footnotes for Wordpress](https://wordpress.org/plugins/fd-footnotes/).
+This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense.
 
 **The plugin is free. However, I would really appreciate if you could support me with a [moral license](https://gumroad.com/l/kirby-footnotes)!**
 
@@ -18,7 +18,7 @@ This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extreme
 
 # Installation & Update <a id="Installation"></a>
 1. Download [Footnotes](https://github.com/distantnative/footnotes/zipball/master/)
-2. Copy the `site/plugins/footnotes` directory to `site/plugins/`
+2. Copy the `footnotes` directory to `site/plugins/`
 3. Add CSS for the footnotes (optional)  
 `.footnote`: in-text reference number, `sup` tag  
 `.footnotes`: `div` wrapper for list of footnotes, `ol` list inside  
