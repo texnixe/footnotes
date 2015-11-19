@@ -26,7 +26,7 @@ This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extreme
 
 
 # Usage <a id="Usage"></a>
-Adding footnotes to your Kirbytext field is simple. Just type them inline in your post in square brackets like this:
+Just use the footnotes method on the field: `$page->text()->footnotes()`. Adding footnotes to your Kirbytext field is simple. Just type them inline in your post in square brackets like this:
 
 ```
 [1. This is a footnote.]

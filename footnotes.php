@@ -142,6 +142,8 @@ class Footnotes {
 
 
   private function _bibliography() {
+    if(empty($this->entries)) return false;
+
     $list  = '<div class="footnotes" id="footnotes">';
     $list .= '<div class="footnotedivider"></div>';
     $list .= '<ol>';
