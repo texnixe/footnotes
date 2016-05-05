@@ -9,9 +9,9 @@ class Html {
 
   public static function mark($note) {
     return static::snippet('mark', [
-      'hide'   => $note->hide,
       'count'  => $note->count,
       'order'  => $note->order,
+      'hide'   => $note->hide,
     ]);
   }
 
@@ -25,17 +25,17 @@ class Html {
 
   public static function entry($note) {
     return static::snippet('entry', [
-      'hide'   => $note->hide,
+      'note'   => $note->note,
       'count'  => $note->count,
       'order'  => $note->order,
-      'note'   => $note->note
+      'hide'   => $note->hide,
     ]);
   }
 
   public static function js() {
     return static::snippet('script', [
-      'offset' => c::get('plugin.footnotes.offset', 0),
-      'speed'  => c::get('plogin.footnotes.smoothscroll.speed', 500),
+      'offset' => c::get('plugin.footnotes.scroll.offset', 0),
+      'speed'  => c::get('plogin.footnotes.scroll.speed', 500),
     ]);
   }
 

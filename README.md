@@ -1,6 +1,6 @@
-![Footnotes for Kirby CMS](http://distantnative.com/remote/github/kirby-footnotes-github.png)  
+![Footnotes for Kirby CMS](docs/logo.png)  
 
-[![Release](https://img.shields.io/github/release/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/releases)  [![Issues](https://img.shields.io/github/issues/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/issues) [![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/distantnative/footnotes/master/LICENSE)
+[![Release](https://img.shields.io/github/release/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/releases)  [![Issues](https://img.shields.io/github/issues/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/issues)
 [![Moral License](https://img.shields.io/badge/buy-moral_license-8dae28.svg)](https://gumroad.com/l/kirby-footnotes)
 
 This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense.
@@ -8,15 +8,19 @@ This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extreme
 **The plugin is free. However, I would really appreciate if you could support me with a [moral license](https://gumroad.com/l/kirby-footnotes)!**
 
 
-# Table of Contents
-1. [Installation & Update](#Installation)
-2. [Usage](#Usage)
-3. [Options](#Options)
-4. [Help & Improve](#Help)
-5. [Version History](#VersionHistory)
+## Table of Contents
+1. [Requirements](#Requirements)
+2. [Installation & Update](#Installation)
+3. [Usage](#Usage)
+4. [Options](#Options)
+5. [Help & Improve](#Help)
+6. [Version History](#VersionHistory)
 
+## Requirements <a id="Requirements"></a>
+Since version 1.0.0 the footnotes plugin requires Kirby CMS 2.3.0 or higher.  
+If you are running an older version of Kirby, please use [version 0.9.0](https://github.com/distantnative/footnotes/releases/tag/v0.9).
 
-# Installation & Update <a id="Installation"></a>
+## Installation & Update <a id="Installation"></a>
 1. Download [Footnotes](https://github.com/distantnative/footnotes/zipball/master/)
 2. Copy the `footnotes` directory to `site/plugins/`
 3. Add CSS for the footnotes (optional)  
@@ -25,7 +29,7 @@ This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extreme
 `.footnotedivider`: `div` element before the `ol` list  
 
 
-# Usage <a id="Usage"></a>
+## Usage <a id="Usage"></a>
 Just use the footnotes method on the field: `$page->text()->footnotes()`. Adding footnotes to your Kirbytext field is simple. Just type them inline in your post in square brackets like this:
 
 ```
@@ -42,9 +46,9 @@ home? Abingdon: Routledge. Seite 171]
 ```
 
 **In-text reference:**  
-![In-text reference](https://cloud.githubusercontent.com/assets/3788865/5635753/670ccacc-95ec-11e4-81b8-7cdc20b077b2.png)
+![In-text reference](docs/example1.png)
 **Footnotes list at the end of the text:**  
-![Footnotes list](https://cloud.githubusercontent.com/assets/3788865/5635754/67339fe4-95ec-11e4-981a-ef3f47075935.png)
+![Footnotes list](docs/example2.png)
 
 Notes:  
 - You should not include square brackets [] inside the footnotes themselves.
@@ -57,39 +61,41 @@ To have a footnote / an information included in the footnotes list at the end of
 ```
 
 
-# Options <a id="Options"></a>
 
-**Global footnotes**  
-Footnotes can be used either as method on a text field, e.g. `$page->text()->footnotes()->kirbytext()`, when creating templates - or globally set for all Kirbytext outputs. To do the latter add the following to your `site/config/config.php`:
+## Options <a id="Options"></a>
+
+**Remove footnotes**  
+If you want show footnotes of a text field on specific pages (e.g. single blog article) but not on others (e.g. blog overview), you can add a parameter to the footnotes field method in e.g. `templates/blog.php` to remove all footnotes:
 ```php
-c::set('footnotes.global', true);
-```
-
-**Smooth scrolling & Offset**  
-There are also options to enable a smooth scrolling effect to the footnotes list and to define a certain offset to the end scrolling position (e.g. if a fixed header menu is used):
-
-```php
-c::set('footnotes.smoothscroll', true);
-c::set('footnotes.offset', 0);
+<?= $post->text()->footnotes(false) ?>
 ```
 
 **Merge identical footnotes**  
-Sometimes it might be handy to not repeat identical footnotes, but rather to reference only one single footnotes list entry. To do so add the following option to your `site/config/config.php`:
+If you do not want to repeat identical footnotes in the bibliography, but rather to reference only with a single reference mark and bibliograpyh entry, add the following to your `site/config/config.php`:
 
 ```php
-c::set('footnotes.merge', true);
+c::set('plugin.footnotes.merge', true);
 ```
 
-**Remove footnotes**  
-If you wanna show the footnotes on certain pages (e.g. single article) but not on others (e.g. on the blog overview), you can add a parameter to the footnotes field method and it will remove all footnotes (the in-text references and the list):
+**Smooth scrolling**  
+With the following options, you can enable a smooth scrolling effect to the bibliography as well as define a scroll speed and an offset to the scrolling position (e.g. if a fixed header menu is used). Add them to your `site/config/config.php`:
+
 ```php
-echo $post->text()->footnotes(false)->kirbytext();
+c::set('plugin.footnotes.scroll',        true);
+c::set('plugin.footnotes.scroll.offset', 60);
+c::set('plugin.footnotes.scroll.speed',  500);
+```
+
+**Global footnotes**
+In addition to converting footnotes via the field method, you can set an option to activate it for all Kirbytext outputs globally. Add the following to your `site/config/config.php`:
+```php
+c::set('plugin.footnotes.global', true);
 ```
 
 **Template whitelist**  
 You can allow footnotes only on specific templates by adding the following to your `site/config/config.php`:
 ```php
-c::set('footnotes.templates.allow', array(
+c::set('plugin.footnotes.templates.allow', array(
   'about',
   'blog',
   'project'
@@ -99,7 +105,7 @@ c::set('footnotes.templates.allow', array(
 **Template blacklist**
 You can restrict footnotes from specific templates by adding the following to your `site/config/config.php`:
 ```php
-c::set('footnotes.templates.ignore', array(
+c::set('plugin.footnotes.templates.ignore', array(
   'about',
   'blog',
   'project'
@@ -107,12 +113,15 @@ c::set('footnotes.templates.ignore', array(
 ```
 
 
-# Help & Improve <a id="Help"></a>
+## Help & Improve <a id="Help"></a>
 *If you have any suggestions for further configuration options, [please let me know](https://github.com/distantnative/footnotes/issues/new).*
 
 
-# Version history <a id="VersionHistory"></a>
-Check out the more or less complete [changelog](https://github.com/distantnative/footnotes/blob/master/CHANGELOG.md).
+## Version history <a id="VersionHistory"></a>
+You can find a more or less complete version history in the [changelog](docs/CHANGELOG.md).
+
 ## License
 [MIT License](http://www.opensource.org/licenses/mit-license.php)
 
+## Author
+Nico Hoffmann - <https://nhoffmann.com>

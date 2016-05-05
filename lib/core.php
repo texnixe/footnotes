@@ -17,19 +17,19 @@ class Core {
   }
 
   // ================================================
-  //  Process Footnotes
+  //  Process footnotes
   // ================================================
 
-  public function process($bibliography = true) {
+  public function process($withBibliography = true) {
     if($this->template->isAllowed()) {
-      return $this->convert($bibliography);
+      return $this->convert($withBibliography);
     } else {
       return $this->remove();
     }
   }
 
 
-  public function convert($bibliography = true) {
+  public function convert($withBibliography = true) {
 
     if($this->matches->match($this->text)) {
       $notes = $this->matches->clean();
@@ -52,12 +52,12 @@ class Core {
         $this->entries->append($key, $entry);
       }
 
-      if($bibliography) {
+      if($withBibliography) {
         $this->text->append(html::bibliography($this->entries));
       }
 
       // append js to script of smooth scroll active
-      if(c::get('plugin.footnotes.smoothscroll', true)) {
+      if(c::get('plugin.footnotes.scroll', true)) {
         $this->text->append(html::js());
       }
     }
@@ -79,6 +79,10 @@ class Core {
 
   }
 
+  // ================================================
+  //  Default arguments
+  // ================================================
+
 
   public static function args($args = []) {
     if(is_bool($args)) {
@@ -89,14 +93,6 @@ class Core {
       'bibliography' => true,
     );
     return a::merge($defaults, $args);
-  }
-
-
-
-  public static function bibliography($field) {
-    $self = new self($field->value, $field->page);
-    $text = $self->convert(false);
-    return html::bibliography();
   }
 
 }
