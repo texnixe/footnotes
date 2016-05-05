@@ -19,7 +19,8 @@ class Methods {
     $args = Core::arguments($args);
 
     if($args['convert'] === false) {
-      return $core->remove();
+      $core->remove();
+      return $core->text;
     } else {
       return $core->process($args['bibliography']);
     }

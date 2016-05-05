@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1 (2016-05-05)
+- Fixed an error when using `$page->text()->footnotes(false)`
+
 ## 1.0.0 (2016-05-05)
 - Requires Kirby 2.3.0
 - Switched to follow the markdown footnotes mark-up

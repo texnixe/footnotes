@@ -19,12 +19,10 @@ class Core {
   // ================================================
 
   public function process($withBibliography = true) {
-    if($this->matches->match($this->text)) {
-      if($this->template->isAllowed()) {
-        $this->convert($withBibliography);
-      } else {
-        $this->remove();
-      }
+    if($this->template->isAllowed()) {
+      $this->convert($withBibliography);
+    } else {
+      $this->remove();
     }
 
     return $this->text;
@@ -32,43 +30,48 @@ class Core {
 
 
   public function convert($withBibliography = true) {
-    $notes = $this->matches->clean();
+    if($this->matches->match($this->text)) {
 
-    // merge duplicates
-    if(c::get('plugin.footnotes.merge', true)) {
-      $notes = array_unique($notes);
-    }
+      $notes = $this->matches->clean();
 
-    $count = 1;
-    $order = 1;
+      // merge duplicates
+      if(c::get('plugin.footnotes.merge', true)) {
+        $notes = array_unique($notes);
+      }
 
-    foreach($notes as $key => $note) {
-      $note = new Note($note, $count, $order);
+      $count = 1;
+      $order = 1;
 
-      $mark = html::mark($note);
-      $this->text->replace($this->matches->toArray()[$key], $mark);
+      foreach($notes as $key => $note) {
+        $note = new Note($note, $count, $order);
 
-      $entry = html::entry($note);
-      $this->entries->append($key, $entry);
+        $mark = html::mark($note);
+        $this->text->replace($this->matches->toArray()[$key], $mark);
 
-      $count++;
-      if(!$note->hide) $order++;
-    }
+        $entry = html::entry($note);
+        $this->entries->append($key, $entry);
 
-    if($withBibliography) {
-      $this->text->append(html::bibliography($this->entries));
-    }
+        $count++;
+        if(!$note->hide) $order++;
+      }
 
-    // append js to script of smooth scroll active
-    if(c::get('plugin.footnotes.scroll', true)) {
-      $this->text->append(html::js());
+      if($withBibliography) {
+        $this->text->append(html::bibliography($this->entries));
+      }
+
+      // append js to script of smooth scroll active
+      if(c::get('plugin.footnotes.scroll', true)) {
+        $this->text->append(html::js());
+      }
     }
   }
 
 
   public function remove() {
-    foreach($this->matches->toArray() as $note) {
-      $this->text->replace($note);
+    if($this->matches->match($this->text)) {
+      foreach($this->matches->toArray() as $note) {
+        $this->text->replace($note, '');
+      }
     }
   }
 
