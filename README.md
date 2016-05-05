@@ -113,3 +113,6 @@ c::set('footnotes.templates.ignore', array(
 
 # Version history <a id="VersionHistory"></a>
 Check out the more or less complete [changelog](https://github.com/distantnative/footnotes/blob/master/CHANGELOG.md).
+## License
+[MIT License](http://www.opensource.org/licenses/mit-license.php)
+

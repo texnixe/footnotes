@@ -2,6 +2,7 @@
   "name":     "Footnotes",
   "author":   "Nico Hoffmann",
   "version":  "0.9",
+  "license": "MIT",
   "repository": {
     "url": "https://github.com/distantnative/footnotes"
   }
