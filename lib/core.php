@@ -46,13 +46,13 @@ class Core {
         $note = new Note($note, $count, $order);
 
         $mark = html::mark($note);
-        $this->text->replaceMark($mark, $key, $this->matches->toArray());
+        $this->text->replace($this->matches->toArray()[$key], $mark);
 
         $entry = html::entry($note);
         $this->entries->append($key, $entry);
 
         $count++;
-        if(!$note->isHidden()) $order++;
+        if(!$note->hide) $order++;
       }
 
       if($withBibliography) {

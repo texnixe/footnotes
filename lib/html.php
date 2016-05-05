@@ -11,7 +11,7 @@ class Html {
     return static::snippet('mark', [
       'count'  => $note->count,
       'order'  => $note->order,
-      'hide'   => $note->isHidden(),
+      'hide'   => $note->hide,
     ]);
   }
 
@@ -25,10 +25,10 @@ class Html {
 
   public static function entry($note) {
     return static::snippet('entry', [
-      'note'   => $note->note,
+      'note'   => $note->hide ? trim(substr($note, 1)) : trim($note),
       'count'  => $note->count,
       'order'  => $note->order,
-      'hide'   => $note->isHidden(),
+      'hide'   => $note->hide,
     ]);
   }
 

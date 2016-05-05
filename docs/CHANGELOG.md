@@ -2,7 +2,9 @@
 
 ## 1.0.0 (2016-05-05)
 - Requires Kirby 2.3.0
-- Lots of PHP refactoring (including namespacing)
+- Switched to follow the markdown footnotes mark-up
+- Identical footnotes are now always merged
+- Completely refactored PHP (including namespacing)
 - Completely renamed config options for consistency
 - Switched to MIT License
 

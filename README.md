@@ -81,13 +81,6 @@ And then output the bibliography where wanted:
 <?= dnFootnotes::bibliography($page->text()) ?>
 ```
 
-**Disable footnote merging**  
-If you do not want that identical footnotes will be merged in the bibliography, add the following to your `site/config/config.php`:
-
-```php
-c::set('plugin.footnotes.merge', false);
-```
-
 **Smooth scrolling**  
 With the following options, you can enable a smooth scrolling effect to the bibliography as well as define a scroll speed and an offset to the scrolling position (e.g. if a fixed header menu is used). Add them to your `site/config/config.php`:
 
