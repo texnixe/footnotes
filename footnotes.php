@@ -1,22 +1,29 @@
 <?php
 
-require_once('core.php');
+namespace Kirby\Plugins\distantnative\Footnotes;
 
-use Kirby\Plugins\distantnative\Footnotes\Core as Footnotes;
+use C;
 
-// Footnotes field method: $page->text()->footnotes()->kt()
-field::$methods['footnotes'] = function($field, $args = array()) {
-  $args         = Footnotes::defaultArgs($args);
-  $footnotes    = new Footnotes($field->value, $field->page, $args);
-  $field->value = $args['convert'] ? $footnotes->process($args['bibliography']) : $footnotes->remove();
-  return $field;
+require_once('lib/core.php');
+require_once('lib/text.php');
+require_once('lib/matches.php');
+require_once('lib/note.php');
+require_once('lib/html.php');
+require_once('lib/templates.php');
+require_once('lib/methods.php');
+
+// $page->text()->footnotes()->kt()
+$ftFieldMethod = function($field, $args = []) {
+  return Methods::field($field, $args);
 };
 
-// Kirbytext pre-filter (if option 'footnotes.global' is true)
-if(c::get('footnotes.global', false)) {
+$kirby->set('field::method', 'footnotes', $ftFieldMethod);
+$kirby->set('field::method', 'ft',        $ftFieldMethod);
+
+
+// plugin.footnotes.global
+if(c::get('plugin.footnotes.global', false)) {
   kirbytext::$post[] = function($kirbytext, $value) {
-    $args      = Footnotes::defaultArgs();
-    $footnotes = new Footnotes($value, kirby()->site()->activePage());
-    return $footnotes->process($args['bibliography']);
+    Methods::prefilter($kirbytext, $value);
   };
 }
