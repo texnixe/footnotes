@@ -2,8 +2,6 @@
 
 namespace Kirby\Plugins\distantnative\Footnotes;
 
-use C;
-
 class Text {
 
   public function __construct($text) {

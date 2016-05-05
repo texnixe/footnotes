@@ -4,8 +4,9 @@
 - Requires Kirby 2.3.0
 - Switched to follow the markdown footnotes mark-up
 - Identical footnotes are now always merged
+- Updated `package.json` to work with the [Kirby CLI](https://github.com/getkirby/cli)
 - Completely refactored PHP (including namespacing)
-- Completely renamed config options for consistency
+- Renamed config options for consistency
 - Switched to MIT License
 
 ## 0.9.0

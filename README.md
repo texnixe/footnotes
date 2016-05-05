@@ -5,8 +5,6 @@
 
 This plugin extends [Kirby CMS](http://getkirby.com) with some basic and extremely easy footnote functionalities. The syntax is simple to understand and if the plugin is removed the remaining text still makes sense.
 
-**The plugin is free. However, I would really appreciate if you could support me with a [moral license](https://gumroad.com/l/kirby-footnotes)!**
-
 
 ## Table of Contents
 1. [Requirements](#Requirements)
