@@ -84,14 +84,17 @@ class Core {
   // ================================================
 
 
-  public static function args($args = []) {
+  public static function arguments($args = []) {
+
     if(is_bool($args)) {
-      $args = array('convert' => $args);
+      $args = ['convert' => $args];
     }
-    $defaults = array(
+
+    $defaults = [
       'convert'      => true,
       'bibliography' => true,
-    );
+    ];
+
     return a::merge($defaults, $args);
   }
 

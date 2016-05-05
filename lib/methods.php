@@ -15,8 +15,8 @@ class Methods {
   }
 
   protected static function run($text, $page, $args = []) {
-    $args = Core::args($args);
     $core = new Core($text, $page);
+    $args = Core::arguments($args);
 
     if($args['convert'] === false) {
       return $core->remove();
