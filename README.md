@@ -59,7 +59,7 @@ home? Abingdon: Routledge. Seite 171]
 *Notes:*  
 - You should not include square brackets [] inside a footnote.
 
-### Footnotes without reference mark
+#### Footnotes without reference mark
 To have a footnote/an information included in the bibliography, but without any reference mark inside the text, just prepend a `!` to the footnote:
 ```
 [^! **Photo credits:** (link:http://www.flickr.com/photos/cubagallery/ text:Cuba Gallery)]
