@@ -50,6 +50,9 @@ class Core {
 
         $entry = html::entry($note);
         $this->entries->append($key, $entry);
+
+        $count++;
+        if(!$note->isHidden()) $order++;
       }
 
       if($withBibliography) {

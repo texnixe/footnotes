@@ -11,4 +11,8 @@ class Note {
     $this->hide  = substr($this->note, 0, 4) === '<no>';
   }
 
+  public function isHidden() {
+    return $this->hide;
+  }
+
 }
