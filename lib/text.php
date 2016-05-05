@@ -19,7 +19,7 @@ class Text {
   }
 
   public function replaceMark($mark, $key, $matches) {
-    if(c::get('plugin.footnotes.merge', false)) {
+    if(c::get('plugin.footnotes.merge', true)) {
       $this->replaceMatched($key, $matches, $mark);
     } else {
       $this->replace($matches[$key], $mark);

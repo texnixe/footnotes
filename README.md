@@ -81,11 +81,11 @@ And then output the bibliography where wanted:
 <?= dnFootnotes::bibliography($page->text()) ?>
 ```
 
-**Merge identical footnotes**  
-If you do not want to repeat identical footnotes in the bibliography, but rather to reference only with a single reference mark and bibliograpyh entry, add the following to your `site/config/config.php`:
+**Disable footnote merging**  
+If you do not want that identical footnotes will be merged in the bibliography, add the following to your `site/config/config.php`:
 
 ```php
-c::set('plugin.footnotes.merge', true);
+c::set('plugin.footnotes.merge', false);
 ```
 
 **Smooth scrolling**  

@@ -35,7 +35,7 @@ class Core {
       $notes = $this->matches->clean();
 
       // merge duplicates
-      if(c::get('plugin.footnotes.merge', false)) {
+      if(c::get('plugin.footnotes.merge', true)) {
         $notes = array_unique($notes);
       }
 
