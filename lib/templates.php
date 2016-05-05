@@ -13,11 +13,11 @@ class Templates {
   }
 
   public function isAllowed() {
-    return $this->isWhitelisted() and !$this->isBlacklisted();
+    return $this->isWhitelisted() && !$this->isBlacklisted();
   }
 
   public function isWhitelisted() {
-    return $this->whitelist === true or in_array($this->page->template(), $this->whitelist);
+    return $this->whitelist === true || in_array($this->page->template(), $this->whitelist);
   }
 
   public function isBlacklisted() {
