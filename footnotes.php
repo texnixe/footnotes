@@ -11,6 +11,7 @@ require_once('lib/note.php');
 require_once('lib/html.php');
 require_once('lib/templates.php');
 require_once('lib/methods.php');
+require_once('lib/legacy.php');
 
 // $page->text()->footnotes()->kt()
 $ftFieldMethod = function($field, $args = []) {

@@ -28,6 +28,6 @@ class Methods {
   public static function bibliography($field) {
     $core = new Core($field->value, $field->page);
     $text = $core->convert(false);
-    return html::bibliography();
+    return html::bibliography($core->entries);
   }
 }

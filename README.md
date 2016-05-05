@@ -68,6 +68,17 @@ To have a footnote / an information included in the footnotes list at the end of
 If you want show footnotes of a text field on specific pages (e.g. single blog article) but not on others (e.g. blog overview), you can add a parameter to the footnotes field method in e.g. `templates/blog.php` to remove all footnotes:
 ```php
 <?= $post->text()->footnotes(false) ?>
+<?= $post->text()->footnotes(['convert' => false]) ?>
+```
+
+**Separate bibliography output**
+If you do not want the bibliography to be appened right after the field text, you first have to deactivate thhe bibliography in the field method:
+```php
+<?= $page->text()->footnotes(['bibliography' => false]) ?>
+```
+And then output the bibliography where wanted:
+```php
+<?= dnFootnotes::bibliography($page->text()) ?>
 ```
 
 **Merge identical footnotes**  
