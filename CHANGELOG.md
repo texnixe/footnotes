@@ -1,7 +1,9 @@
 # Changelog
 
-## 1.0.1 (2016-05-05)
+## 1.0.1 (2016-09-04)
 - Fixed an error when using `$page->text()->footnotes(false)`
+- Fixed falsely using `$number`
+- Removed docs images from repository
 
 ## 1.0.0 (2016-05-05)
 - Requires Kirby 2.3.0

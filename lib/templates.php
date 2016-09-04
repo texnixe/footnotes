@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\Plugins\distantnative\Footnotes;
+namespace Kirby\distantnative\Footnotes;
 
 use C;
 
