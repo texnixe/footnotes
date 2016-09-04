@@ -14,13 +14,9 @@ require_once('lib/methods.php');
 require_once('lib/legacy.php');
 
 // $page->text()->footnotes()->kt()
-$ftFieldMethod = function($field, $args = []) {
+$kirby->set('field::method', ['footnotes', 'ft'], function($field, $args = []) {
   return Methods::field($field, $args);
-};
-
-$kirby->set('field::method', 'footnotes', $ftFieldMethod);
-$kirby->set('field::method', 'ft',        $ftFieldMethod);
-
+});
 
 // plugin.footnotes.global
 if(c::get('plugin.footnotes.global', false)) {
