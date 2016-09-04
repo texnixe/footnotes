@@ -1,4 +1,4 @@
-![Footnotes for Kirby CMS](docs/logo.png)  
+![Footnotes for Kirby CMS](https://cloud.githubusercontent.com/assets/3788865/18232002/fa5e3a3c-72c6-11e6-8ba2-d91a7d55b1d5.png)  
 
 [![Release](https://img.shields.io/github/release/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/releases)  [![Issues](https://img.shields.io/github/issues/distantnative/footnotes.svg)](https://github.com/distantnative/footnotes/issues)
 [![Moral License](https://img.shields.io/badge/buy-moral_license-8dae28.svg)](https://gumroad.com/l/kirby-footnotes)
@@ -50,9 +50,9 @@ home? Abingdon: Routledge. Seite 171]
 ```
 
 **In-text reference mark:**  
-![In-text reference mark](docs/example1.png)
+![In-text reference mark](https://cloud.githubusercontent.com/assets/3788865/18232001/fa5dc6d8-72c6-11e6-841e-57e37f292646.png)
 **Bibliography at the end of the text:**  
-![Bibliography](docs/example2.png)
+![Bibliography](https://cloud.githubusercontent.com/assets/3788865/18232000/fa5d552c-72c6-11e6-8ba0-c17a8f79bb52.png)
 
 *Notes:*  
 - You should not include square brackets [] inside a footnote.
@@ -126,7 +126,7 @@ c::set('plugin.footnotes.templates.ignore', array(
 
 
 ## Version history <a id="VersionHistory"></a>
-You can find a more or less complete version history in the [changelog](docs/CHANGELOG.md).
+You can find a more or less complete version history in the [changelog](CHANGELOG.md).
 
 ## License
 [MIT License](http://www.opensource.org/licenses/mit-license.php)
