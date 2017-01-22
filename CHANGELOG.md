@@ -1,8 +1,8 @@
 # Changelog
 
-## 1.1.0 (2017-01-22)
-- Added KibryFootnotes::field() helper method
+## [1.1.0](https://github.com/distantnative/footnotes/releases/tag/1.1.0) (2017-01-22)
 - Improved namespacing and code structure
+- Added KibryFootnotes::field() helper method
 - Fixed install folder name typo in README
 
 ## 1.0.1 (2016-09-04)
