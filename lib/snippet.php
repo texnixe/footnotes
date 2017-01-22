@@ -1,17 +1,17 @@
 <?php
 
-namespace Kirby\distantnative\Footnotes;
+namespace Kirby\Footnotes;
 
 use C;
 use Tpl;
 
-class Html {
+class Snippet {
 
-  public static function mark($note) {
-    return static::snippet('mark', [
+  public static function reference($note) {
+    return static::snippet('reference', [
       'count'  => $note->count,
       'order'  => $note->order,
-      'hide'   => $note->hide,
+      'hidden' => $note->isHidden(),
     ]);
   }
 
@@ -25,10 +25,10 @@ class Html {
 
   public static function entry($note) {
     return static::snippet('entry', [
-      'note'   => $note->hide ? trim(substr($note, 1)) : trim($note),
+      'note'   => $note->isHidden() ? trim(substr($note, 1)) : trim($note),
       'count'  => $note->count,
       'order'  => $note->order,
-      'hide'   => $note->hide,
+      'hidden' => $note->isHidden(),
     ]);
   }
 

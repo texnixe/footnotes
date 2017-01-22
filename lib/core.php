@@ -1,6 +1,6 @@
 <?php
 
-namespace Kirby\distantnative\Footnotes;
+namespace Kirby\Footnotes;
 
 use C;
 use Collection;
@@ -9,9 +9,27 @@ class Core {
 
   public function __construct($text, $page) {
     $this->text     = new Text($text);
-    $this->matches  = new Matches;
+    $this->matches  = new Matching;
     $this->entries  = new Collection;
-    $this->template = new Templates($page);
+    $this->template = new Template($page);
+  }
+
+  public static function run($text, $page, $args = []) {
+    $args      = self::arguments($args);
+    $footnotes = new self($text, $page);
+
+    if($args['convert'] === false) {
+      $footnotes->remove();
+      return $footnotes->text;
+    } else {
+      return $footnotes->process($args['bibliography']);
+    }
+  }
+
+  public static function bibliography($field) {
+    $footnotes = new self($field->value, $field->page);
+    $text      = $footnotes->convert(false);
+    return Snippet::bibliography($footnotes->entries);
   }
 
   // ================================================
@@ -30,9 +48,10 @@ class Core {
 
 
   public function convert($withBibliography = true) {
-    if($this->matches->match($this->text)) {
+    if($this->matches->find($this->text)) {
 
-      $notes = $this->matches->clean();
+      $references = $this->matches->toArray();
+      $notes      = $this->matches->strip();
 
       // merge duplicates
       if(c::get('plugin.footnotes.merge', true)) {
@@ -45,30 +64,27 @@ class Core {
       foreach($notes as $key => $note) {
         $note = new Note($note, $count, $order);
 
-        $mark = html::mark($note);
-        $this->text->replace($this->matches->toArray()[$key], $mark);
-
-        $entry = html::entry($note);
-        $this->entries->append($key, $entry);
+        $this->text->replace($references[$key], Snippet::reference($note));
+        $this->entries->append($key, Snippet::entry($note));
 
         $count++;
-        if(!$note->hide) $order++;
+        if(!$note->isHidden()) $order++;
       }
 
       if($withBibliography) {
-        $this->text->append(html::bibliography($this->entries));
+        $this->text->append(Snippet::bibliography($this->entries));
       }
 
       // append js to script of smooth scroll active
       if(c::get('plugin.footnotes.scroll', true)) {
-        $this->text->append(html::js());
+        $this->text->append(Snippet::js());
       }
     }
   }
 
 
   public function remove() {
-    if($this->matches->match($this->text)) {
+    if($this->matches->find($this->text)) {
       foreach($this->matches->toArray() as $note) {
         $this->text->replace($note, '');
       }

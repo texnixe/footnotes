@@ -1,10 +1,10 @@
 <?php
 
-namespace Kirby\distantnative\Footnotes;
+namespace Kirby\Footnotes;
 
 use C;
 
-class Templates {
+class Template {
 
   public function __construct($page) {
     $this->page = $page;
