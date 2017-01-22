@@ -1,4 +1,4 @@
-<?php if($hide) : ?>
+<?php if($hidden) : ?>
   <li id="fn-<?= $count ?>" style="list-style-type:none">
     <?= $note ?>
   </li>
