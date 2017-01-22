@@ -20,7 +20,7 @@ If you are running an older version of Kirby, please use [version 0.9.0](https:/
 
 ## Installation & Update <a id="Installation"></a>
 1. Download [Footnotes](https://github.com/distantnative/footnotes/zipball/master/)
-2. Add to `site/plugins/footes/`
+2. Add to `site/plugins/footnotes/`
 3. Add CSS for the footnotes (optional)  
 `.footnote`: in-text reference mark, `sup` tag  
 `.footnotes`: `div` wrapper for list of footnotes, `ol` list inside  

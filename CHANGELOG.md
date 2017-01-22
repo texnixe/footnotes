@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.0 (2017-01-22)
+- Fixed install folder name typo in README
+
 ## 1.0.1 (2016-09-04)
 - Fixed an error when using `$page->text()->footnotes(false)`
 - Fixed falsely using `$number`
