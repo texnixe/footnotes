@@ -1,7 +1,7 @@
 <?php
 
-class dnFootnotes {
+class KirbyFootnotes {
   public static function bibliography($field) {
-    return Kirby\distantnative\Footnotes\Methods::bibliography($field);
+    return Kirby\Footnotes\Methods::bibliography($field);
   }
 }

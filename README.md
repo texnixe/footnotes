@@ -81,7 +81,7 @@ If you do not want the bibliography to be appened right after the field text, yo
 ```
 And then output the bibliography where wanted:
 ```php
-<?= dnFootnotes::bibliography($page->text()) ?>
+<?= KirbyFootnotes::bibliography($page->text()) ?>
 ```
 
 #### Smooth scrolling
