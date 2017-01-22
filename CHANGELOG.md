@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.1.0 (2017-01-22)
+- Added KibryFootnotes::field() helper method
 - Improved namespacing and code structure
 - Fixed install folder name typo in README
 
