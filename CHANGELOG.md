@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.1.1](https://github.com/distantnative/footnotes/releases/tag/1.1.1) (2017-06-18)
+:bug: Fixed bug related to unwanted whitespace  
+
 ## [1.1.0](https://github.com/distantnative/footnotes/releases/tag/1.1.0) (2017-01-22)
 - Improved namespacing and code structure
 - Added KibryFootnotes::field() helper method
